@@ -77,7 +77,7 @@ docker build --rm \
              --add-host github-cloud.s3.amazonaws.com:52.216.166.91 \
              --add-host github-production-release-asset-2e65be.s3.amazonaws.com:54.231.114.66 \
              --add-host github-production-release-asset-2e65be.s3.amazonaws.com:52.216.165.147 \
-             --build-arg WRAPPER_TOMCAT_VERSION=3.5.41.1 \
+             --build-arg WRAPPER_SINGLE_VERSION=3.5.41.1 \
              -t wrapper-single:1.0.0-alpine \
              -f Dockerfile .
 }
