@@ -6,7 +6,7 @@ MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
 ARG WRAPPER_SINGLE_VERSION=3.5.41.1
-ARG WRAPPER_SINGLE_URL=https://github.com/rancococ/wrapper/archive/tomcat-${WRAPPER_SINGLE_VERSION}.tar.gz
+ARG WRAPPER_SINGLE_URL=https://github.com/rancococ/wrapper/archive/single-${WRAPPER_SINGLE_VERSION}.tar.gz
 
 # copy script
 COPY docker-preprocess.sh /
