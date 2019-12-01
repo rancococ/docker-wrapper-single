@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+# export environment variable
+export WRAPPERS_JMX_EXPORTER_ENABLED=${WRAPPERS_JMX_EXPORTER_ENABLED:="true"}
+export WRAPPERS_JMX_EXPORTER_PORT=${WRAPPERS_JMX_EXPORTER_PORT:="9404"}
+export WRAPPERS_HEAP_DUMP_ENABLED=${WRAPPERS_HEAP_DUMP_ENABLED:="false"}
+export WRAPPERS_PRINT_GC_ENABLED=${WRAPPERS_PRINT_GC_ENABLED:="true"}
+export WRAPPERS_XMS=${WRAPPERS_XMS:="4096M"}
+export WRAPPERS_XMX=${WRAPPERS_XMX:="4096M"}
+export WRAPPERS_XSS=${WRAPPERS_XSS:="1M"}
+export WRAPPERS_METASPACE_SIZE=${WRAPPERS_METASPACE_SIZE:="128M"}
+export WRAPPERS_MAX_METASPACE_SIZE=${WRAPPERS_MAX_METASPACE_SIZE:="1024M"}
+export WRAPPERS_REMOTE_DEBUG_ENABLED=${WRAPPERS_REMOTE_DEBUG_ENABLED:="false"}
+export WRAPPERS_REMOTE_DEBUG_SUSPEND=${WRAPPERS_REMOTE_DEBUG_SUSPEND:="n"}
+export WRAPPERS_REMOTE_DEBUG_PORT=${WRAPPERS_REMOTE_DEBUG_PORT:="10087"}
+export WRAPPERS_JMX_REMOTE_ENABLED=${WRAPPERS_JMX_REMOTE_ENABLED:="false"}
+export WRAPPERS_JMX_REMOTE_SSL=${WRAPPERS_JMX_REMOTE_SSL:="false"}
+export WRAPPERS_JMX_REMOTE_AUTH=${WRAPPERS_JMX_REMOTE_AUTH:="true"}
+export WRAPPERS_JMX_REMOTE_RMI_SERVER_HOSTNAME=${WRAPPERS_JMX_REMOTE_RMI_SERVER_HOSTNAME:="127.0.0.1"}
+export WRAPPERS_JMX_REMOTE_RMI_REGISTRY_PORT=${WRAPPERS_JMX_REMOTE_RMI_REGISTRY_PORT:="10001"}
+export WRAPPERS_JMX_REMOTE_RMI_SERVER_PORT=${WRAPPERS_JMX_REMOTE_RMI_SERVER_PORT:="10002"}
+export WRAPPERS_HTTP_LISTEN_PORT=${WRAPPERS_HTTP_LISTEN_PORT:="8080"}
+export WRAPPERS_SHUTDOWN_PORT=${WRAPPERS_SHUTDOWN_PORT:="-1"}
+export WRAPPERS_OTHER_PARAMETERS=${WRAPPERS_OTHER_PARAMETERS:=""}
+
+# generate wrapper-environment.json
+envsubst < /data/app/conf/wrapper-environment.tmpl > /data/app/conf/wrapper-environment.json
+
+# generate wrapper-additional.conf
+/data/app/bin/gotmpl-linux-x86-64 --template=f:/data/app/conf/wrapper-additional.tmpl \
+                                  --jsondata=f:/data/app/conf/wrapper-environment.json \
+                                  --outfile=/data/app/conf/wrapper-additional.conf
