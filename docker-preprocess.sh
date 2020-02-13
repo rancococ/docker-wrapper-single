@@ -2,7 +2,16 @@
 
 set -e
 
+echo "preprocess start."
+
 # export environment variable
+# prop
+export PROP_APP_NAME=${PROP_APP_NAME:="myapp"}
+export PROP_APP_LONG_NAME=${PROP_APP_LONG_NAME:="myapp"}
+export PROP_APP_DESC=${PROP_APP_DESC:="myapp"}
+export PROP_APP_LAUNCHER=${PROP_APP_LAUNCHER:="org.springframework.boot.loader.JarLauncher"}
+export PROP_RUN_AS_USER=${PROP_RUN_AS_USER:=""}
+# jvm
 export JVM_JMX_EXPORTER_ENABLED=${JVM_JMX_EXPORTER_ENABLED:="true"}
 export JVM_JMX_EXPORTER_PORT=${JVM_JMX_EXPORTER_PORT:="9404"}
 export JVM_HEAP_DUMP_ENABLED=${JVM_HEAP_DUMP_ENABLED:="false"}
@@ -27,9 +36,50 @@ export JVM_SHUTDOWN_PORT=${JVM_SHUTDOWN_PORT:="-1"}
 export JVM_OTHER_PARAMETERS=${JVM_OTHER_PARAMETERS:=""}
 
 # generate wrapper-environment.json
-envsubst < /data/app/conf/wrapper-environment.tmpl > /data/app/conf/wrapper-environment.json
+if [ ! -f "/data/app/conf/wrapper-environment.json" ]; then
+    echo "file [/data/app/conf/wrapper-environment.json] does not exist, generate /data/app/conf/wrapper-environment.json."
+    gosu app bash -c 'envsubst < /data/app/conf/wrapper-environment.tmpl > /data/app/conf/wrapper-environment.json \
+                      && chmod 644 /data/app/conf/wrapper-environment.json'
+    
+else
+    if [ ! -r "/data/app/conf/wrapper-environment.json" ]; then
+        echo "file [/data/app/conf/wrapper-environment.json] already exists, but it is not readable."
+        exit 1
+    else
+        echo "file [/data/app/conf/wrapper-environment.json] already exists and is readable."
+    fi
+fi
+
+# generate wrapper-property.conf
+if [ ! -f "/data/app/conf/wrapper-property.conf" ]; then
+    echo "file [/data/app/conf/wrapper-property.conf] does not exist, generate /data/app/conf/wrapper-property.conf."
+    gosu app bash -c '/data/app/bin/gotmpl-linux-x86-64 --template=f:/data/app/conf/wrapper-property.tmpl \
+                                                        --jsondata=f:/data/app/conf/wrapper-environment.json \
+                                                        --outfile=/data/app/conf/wrapper-property.conf \
+                      && chmod 644 /data/app/conf/wrapper-property.conf'
+else
+    if [ ! -r "/data/app/conf/wrapper-property.conf" ]; then
+        echo "file [/data/app/conf/wrapper-property.conf] already exists, but it is not readable."
+        exit 1
+    else
+        echo "file [/data/app/conf/wrapper-property.conf] already exists and is readable."
+    fi
+fi
 
 # generate wrapper-additional.conf
-/data/app/bin/gotmpl-linux-x86-64 --template=f:/data/app/conf/wrapper-additional.tmpl \
-                                  --jsondata=f:/data/app/conf/wrapper-environment.json \
-                                  --outfile=/data/app/conf/wrapper-additional.conf
+if [ ! -f "/data/app/conf/wrapper-additional.conf" ]; then
+    echo "file [/data/app/conf/wrapper-additional.conf] does not exist, generate /data/app/conf/wrapper-additional.conf."
+    gosu app bash -c '/data/app/bin/gotmpl-linux-x86-64 --template=f:/data/app/conf/wrapper-additional.tmpl \
+                                                        --jsondata=f:/data/app/conf/wrapper-environment.json \
+                                                        --outfile=/data/app/conf/wrapper-additional.conf \
+                      && chmod 644 /data/app/conf/wrapper-additional.conf'
+else
+    if [ ! -r "/data/app/conf/wrapper-additional.conf" ]; then
+        echo "file [/data/app/conf/wrapper-additional.conf] already exists, but it is not readable."
+        exit 1
+    else
+        echo "file [/data/app/conf/wrapper-additional.conf] already exists and is readable."
+    fi
+fi
+
+echo "preprocess end."
