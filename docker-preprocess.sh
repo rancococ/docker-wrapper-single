@@ -182,5 +182,3 @@ fun_generate_wrapper_additional_file
 echo "preprocess end."
 
 echo ""
-
-exit $?
