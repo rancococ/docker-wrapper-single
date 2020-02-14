@@ -20,7 +20,6 @@ RUN mkdir -p /data/app && \
     \rm -rf /tmp/${tempuuid} && \
     \rm -rf /data/app/bin/*.bat && \
     \rm -rf /data/app/bin/*.exe && \
-    \rm -rf /data/app/conf/wrapper-environment.json && \
     \rm -rf /data/app/conf/wrapper-property.conf && \
     \rm -rf /data/app/conf/wrapper-additional.conf && \
     \rm -rf /data/app/libcore/*.dll && \
