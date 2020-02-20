@@ -131,7 +131,6 @@ fun_generate_wrapper_environment_yaml() {
     return 0
 }
 
-
 # generate wrapper-environment.json
 fun_generate_wrapper_environment_json() {
     echo "generate wrapper-environment.json :"
