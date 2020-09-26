@@ -5,9 +5,9 @@ FROM registry.cn-hangzhou.aliyuncs.com/rancococ/oraclejre:1.8.0_192.5-alpine
 MAINTAINER "rancococ" <rancococ@qq.com>
 
 # set arg info
-ARG version=3.5.43.2
+ARG version=3.5.43.5
 ARG jre_version=1.8.192
-ARG wrapper_version=3.5.43.2
+ARG wrapper_version=3.5.43.5
 ARG wrapper_url=https://github.com/rancococ/wrapper/archive/single-${version}.tar.gz
 
 # copy script
