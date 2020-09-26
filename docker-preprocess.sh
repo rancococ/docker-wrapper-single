@@ -16,7 +16,7 @@ fun_export_environment_variable() {
     export PROP_APP_LAUNCHER=${PROP_APP_LAUNCHER:="org.springframework.boot.loader.JarLauncher"}
     export PROP_RUN_AS_USER=${PROP_RUN_AS_USER:=""}
     # jvm
-    export JVM_JMX_EXPORTER_ENABLED=${JVM_JMX_EXPORTER_ENABLED:="true"}
+    export JVM_JMX_EXPORTER_ENABLED=${JVM_JMX_EXPORTER_ENABLED:="false"}
     export JVM_JMX_EXPORTER_PORT=${JVM_JMX_EXPORTER_PORT:="9404"}
     export JVM_HEAP_DUMP_ENABLED=${JVM_HEAP_DUMP_ENABLED:="false"}
     export JVM_PRINT_GC_ENABLED=${JVM_PRINT_GC_ENABLED:="true"}
